@@ -239,9 +239,6 @@ const Login = () => {
                     </button>
                 </form>
 
-                <p className="text-center text-gray-500 text-xs mt-6">
-                    首次使用请使用 admin / admin 登录
-                </p>
             </div>
         </div>
     );
