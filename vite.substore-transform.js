@@ -125,6 +125,11 @@ export default function getParser() {
             contents = contents.replace(/const\s+isNode\s*=\s*eval\s*\(\s*`typeof\s+process\s*!==\s*"undefined"`\s*\)/g, 'const isNode = false');
             contents = contents.replace(/const\s+isSurge\s*=\s*typeof\s+\$httpClient\s*!==\s*['"]undefined['"][^;\n]*;/g, 'const isSurge = true;');
 
+            // runtime/*.js 中的 Node 内置模块惰性加载：isNode=false 时永不执行，替换为 undefined
+            if (id.includes('sub-store/backend/src/runtime/')) {
+                contents = contents.replace(/tryNodeBuiltin\s*\(\s*\(\s*\)\s*=>\s*require\s*\(\s*['"`][^'"`]+['"`]\s*\)\s*\)/g, 'undefined');
+            }
+
             assertNoDangerousRequireResidue(contents, id, this);
 
             if (id.includes('utils/cors.js')) {
